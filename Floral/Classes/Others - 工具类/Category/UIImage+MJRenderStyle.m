@@ -7,7 +7,7 @@
 //
 
 #import "UIImage+MJRenderStyle.h"
-
+// 控制 image 的 renderMode,在这里设置就可以控制项目中所有的图片 renderMode
 @implementation UIImage (MJRenderStyle)
 - (UIImageRenderingMode)renderingMode
 {

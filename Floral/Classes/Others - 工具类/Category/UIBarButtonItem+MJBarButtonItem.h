@@ -11,4 +11,6 @@
 @interface UIBarButtonItem (MJBarButtonItem)
 
 + (instancetype)itemWithImage:(UIImage*)image highlightImage:(UIImage *)highImage target:(id)target selector:(SEL)selector;
+
++ (instancetype)itemWithtitle:(NSString*)title normalFontColor:(UIColor *)normalColor hightFontColor:(UIColor *)hightFontColor target:(id)target selector:(SEL)selector;
 @end

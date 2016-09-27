@@ -27,6 +27,8 @@
 #pragma mark -添加子控制器们
 - (void)addChileViewController
 {
+    
+    [self.tabBar setBackgroundImage:[UIImage imageNamed:@"tb_bg"]];
 //    专题控制器
     MJThemeViewController * themeVc = [[MJThemeViewController alloc] init];
     

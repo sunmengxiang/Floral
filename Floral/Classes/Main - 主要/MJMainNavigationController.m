@@ -18,12 +18,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+// 只要一导入这个文件就会加载这个方法
++ (void)initialize
+{
+    // 设置所有的导航栏的背景图片,首先是拿到所有的导航栏
+//    [UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:<#(nonnull NSString *)#>] forBarMetrics:<#(UIBarMetrics)#>
+    [super initialize];
 }
-
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
     // 在这里设置所有的二级导航栏左侧返回按钮的样式
@@ -31,7 +32,12 @@
         
         UIButton * backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [backBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
-        backBtn.
+        backBtn.size = CGSizeMake(50, 44);
+        
+        UIBarButtonItem * barItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+        self.navigationItem.leftBarButtonItem = barItem;
+        
+        [backBtn addTarget:self action:@selector(backClick) forControlEvents:UIControlEventTouchUpInside];
         
     }
     
@@ -39,4 +45,9 @@
     [super pushViewController:viewController animated:animated];
 }
 
+
+- (void)backClick
+{
+    [self popViewControllerAnimated:YES];
+}
 @end

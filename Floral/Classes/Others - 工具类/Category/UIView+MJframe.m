@@ -1,8 +1,8 @@
 //
 //  UIView+MJframe.m
-//  项目--导航栏的设置
+//  Floral
 //
-//  Created by 孙梦翔 on 16/7/5.
+//  Created by 孙梦翔 on 16/9/25.
 //  Copyright © 2016年 孙梦翔. All rights reserved.
 //
 

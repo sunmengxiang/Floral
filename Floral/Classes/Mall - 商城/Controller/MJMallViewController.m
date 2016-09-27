@@ -7,31 +7,79 @@
 //
 
 #import "MJMallViewController.h"
-
+#import "MJHeaderFindView.h"
+#import "MJAdsScrollView.h"
 @interface MJMallViewController ()
-
+@property (nonatomic,assign) BOOL findBtnIsSelected;
+@property (nonatomic,assign) BOOL detailBtnIsSelected;
+@property (nonatomic,weak) UIButton * leftBarBtn;
 @end
 
 @implementation MJMallViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    
+    [self setUpNaviBar];
+    // 设置轮播图
+//    [self setUpNaviBar]
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)setUpNaviBar
+{
+    //    查找按钮
+    UIBarButtonItem * findItem = [UIBarButtonItem itemWithImage:[UIImage imageNamed:@"f_search"] highlightImage:nil target:self selector:@selector(rightNaviFindClick)];
+    self.navigationItem.rightBarButtonItem = findItem;
+    //   detail 按钮
+    UIBarButtonItem * leftBarItem = [UIBarButtonItem itemWithImage:[UIImage imageNamed:@"menu"] highlightImage:nil target:self selector:@selector(leftNaviBarClick)];
+    self.navigationItem.leftBarButtonItem = leftBarItem;
+    self.leftBarBtn = leftBarItem.customView;
+    
+    UIButton * titleBtn = [UIButton buttonWithtitle:@"商城" normalFontColor:[UIColor blackColor] hightFontColor:[UIColor blackColor] target:nil selector:nil];
+    self.navigationItem.titleView = titleBtn;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)rightNaviFindClick
+{
+    MJHeaderFindView * headerFindView = [MJHeaderFindView findView];
+    [[UIApplication sharedApplication].keyWindow addSubview:headerFindView];
+    [headerFindView show];
 }
-*/
+- (void)leftNaviBarClick
+{
+    self.detailBtnIsSelected = !self.detailBtnIsSelected;
+    // 旋转
+    if (self.detailBtnIsSelected) { // 奇数次点击的话就旋转
+        
+        CABasicAnimation * rotationAnim = [CABasicAnimation animationWithKeyPath:@"transform"];
+        rotationAnim.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0, 0, 1)];
+        
+        //设置动画执行完毕后不删除动画
+        rotationAnim.removedOnCompletion=NO;
+        //设置保存动画的最新状态
+        rotationAnim.fillMode=kCAFillModeForwards;
+        rotationAnim.duration = 0.5f;
+        
+        [self.leftBarBtn.layer addAnimation:rotationAnim forKey:@"leftNaivAnim"];
+        
+        // 弹出菜单栏
+        
+    }else{ // 偶数次选中的话复原
+        
+        CABasicAnimation * rotationAnim = [CABasicAnimation animationWithKeyPath:@"transform"];
+        rotationAnim.fromValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0, 0, 1)];
+        rotationAnim.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(0, 0, 0, 1)];
+        //设置动画执行完毕后不删除动画
+        rotationAnim.removedOnCompletion=NO;
+        //设置保存动画的最新状态
+        rotationAnim.fillMode=kCAFillModeForwards;
+        rotationAnim.duration = 0.5f;
+        [self.leftBarBtn.layer addAnimation:rotationAnim forKey:@"leftNaivBackAnim"];
+        
+        // 菜单栏消失
+        
+    }
 
+}
 @end
