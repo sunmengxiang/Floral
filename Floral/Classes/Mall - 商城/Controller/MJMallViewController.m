@@ -23,7 +23,7 @@
     
     [self setUpNaviBar];
     // 设置轮播图
-//    [self setUpNaviBar]
+
 }
 
 - (void)setUpNaviBar

@@ -10,10 +10,12 @@
 
 @implementation MJCommonAPIConstant
 #pragma mark - Theme-首页的请求路径
-/** Theme 左侧分类*/
-NSString *const kMJThemeCategoryListAPI = @"http://m.htxq.net/servlet/SysCategoryServlet?action=getList";
+/** Theme 左侧分类请求API GET*/
+NSString * const kMJThemeCategoryAPI = @"http://m.htxq.net/servlet/SysCategoryServlet?action=getListNew";
+/** Theme 文章请求头*/
+NSString * const kMJThemeArticleListHead = @"http://m.htxq.net/servlet/SysArticleServlet";
 /** 获取首页的文章列表//需添加&currentPageIndex=0 下一页改为1 &isVideo=false */
-NSString *const kMJThemeArticleListAPI = @"http://m.htxq.net/servlet/SysArticleServlet?action=mainList_NewVersion";
+NSString * const kMJThemeArticleListBody = @"mainList_NewVersion";
 
 #pragma mark -community-社区的请求路径
 /** 每周TOP10的请求路径*/

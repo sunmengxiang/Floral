@@ -7,7 +7,7 @@
 //
 
 #import "MJCommunityViewController.h"
-
+#import "MJEssenViewController.h"
 @interface MJCommunityViewController ()
 @property (nonatomic,weak) UIButton * essenceBtn;
 @property (nonatomic,weak) UIButton * organizationBtn;
@@ -84,7 +84,8 @@
     pointView.backgroundColor = [UIColor blackColor];
     [titleView addSubview:pointView];
     
-    self.essenceBtn.selected = YES;
+    // 默认先加载精选
+    [self essenceBtnClick];
     self.navigationItem.titleView = titleView;
 
 }
@@ -106,7 +107,17 @@
     [UIView animateWithDuration:0.3 animations:^{
         self.pointerView.center = pointCenter;
     }];
-    NSLog(@"--");
+    
+    // 设置 collectionView 布局
+    UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.itemSize = CGSizeMake((MJScreenW - MJDefaultMargin * 0.5) / 2.0f,100);
+    layout.minimumLineSpacing = (MJDefaultMargin )/ 2.0f;
+    layout.minimumInteritemSpacing = (MJDefaultMargin )/ 2.0f;
+    // 创建 collectionVc
+    MJEssenViewController * essenceVc = [[MJEssenViewController alloc] initWithCollectionViewLayout:layout];
+    [self addChildViewController:essenceVc];
+    essenceVc.view.frame = self.view.bounds;
+    [self.view addSubview:essenceVc.view];
 }
 - (void)organizationBtnClick
 {

@@ -8,8 +8,11 @@
 
 #import "MJCollectionController.h"
 #import "MJThemeCell.h"
+#import "MJNetTools.h"
+#import <MJRefresh.h>
+#import "MJThemeCategory.h"
 @interface MJCollectionController ()
-
+@property (nonatomic,strong) NSArray * categoryArray;
 @end
 
 @implementation MJCollectionController
@@ -21,11 +24,40 @@ static NSString * const reuseIdentifier = @"ThemeCollectionCell";
     
 
     // Register cell classes
-//    [self.collectionView registerClass:[MJThemeCell class] forCellWithReuseIdentifier:reuseIdentifier];
+
     [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([MJThemeCell class]) bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:reuseIdentifier];
+    [self setUpRefresh];
+    
 }
 
-
+- (void)setUpRefresh
+{
+    self.collectionView.mj_header  = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadData)];
+    
+    [self.collectionView.mj_header beginRefreshing];
+}
+- (void)loadData
+{
+    NSMutableDictionary * parameters = [NSMutableDictionary dictionary];
+    parameters[@"action"] = @"mainList_NewVersion";
+    parameters[@"currentPageIndex"] = @"0";
+    parameters[@"isVideo"] = @"false";
+    /** 获取首页的文章列表//需添加&currentPageIndex=0 下一页改为1 &isVideo=false */
+//    NSString * const kMJThemeArticleListBody = @"mainList_NewVersion";
+    
+   [MJNetTools requestThemeParameters:parameters success:^(id responseObject) {
+       
+   
+       NSDictionary * array = responseObject[@"result"][0][@"category"];
+       
+       MJThemeCategory * c = [[MJThemeCategory alloc] initWithDict:array];
+       
+       [self.collectionView.mj_header endRefreshing];
+   
+   } failure:^(NSError *error) {
+       NSLog(@"%@",error);
+   }];
+}
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {

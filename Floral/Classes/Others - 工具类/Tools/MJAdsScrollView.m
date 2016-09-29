@@ -9,8 +9,9 @@
 #import "MJAdsScrollView.h"
 #define SCROLLHEIGHT  self.bounds.size.height
 #define SCROLLWIDTH   self.bounds.size.width
+
 #define HEIGHT        self.frame.origin.y
-static NSTimeInterval const changePicTime = 2.0f;
+static NSTimeInterval const changePicTime = 3.0f;
 static NSTimeInterval const circlePicTime = 0.3f;
 @interface MJAdsScrollView ()
 /** 记录是否暂停计时器*/
@@ -74,8 +75,6 @@ static NSTimeInterval const circlePicTime = 0.3f;
         // 滑动到边界的弹动效果设置
         self.bounces = NO;
         
-        
-
         self.delegate = self;
         self.showsHorizontalScrollIndicator = NO;
         self.showsVerticalScrollIndicator = NO;
@@ -109,6 +108,7 @@ static NSTimeInterval const circlePicTime = 0.3f;
     else
     {
         self.pageControl.frame = CGRectMake(SCROLLWIDTH - 20 * self.pageControl.numberOfPages, HEIGHT + SCROLLHEIGHT - 20, 20 * self.pageControl.numberOfPages, 20);
+        
     }
     self.pageControl.currentPage = 0;
     
@@ -128,8 +128,6 @@ static NSTimeInterval const circlePicTime = 0.3f;
 }
 - (void)changPic
 {
-    
-    
     [self setContentOffset:CGPointMake(SCROLLWIDTH * 2,0) animated:YES];
     self.isThumbOn = YES;
     // 调用复用方法
@@ -168,7 +166,7 @@ static NSTimeInterval const circlePicTime = 0.3f;
     }
     self.isThumbOn = NO;
     self.contentOffset = centerPoint;
-    NSLog(@"%f",self.alpha);
+    
 }
 
 @end

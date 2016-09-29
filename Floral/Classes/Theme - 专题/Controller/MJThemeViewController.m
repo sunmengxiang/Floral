@@ -8,8 +8,8 @@
 
 #import "MJThemeViewController.h"
 #import "MJOrderButton.h"
-#import "MJMenuView.h"
-#import "MJItems.h"
+
+#import "MJCategoryController.h"
 #import "MJHeaderFindView.h"
 #import "MJCollectionController.h"
 #import <Masonry.h>
@@ -27,8 +27,7 @@
 
 @property (nonatomic,weak) UIButton * naviTitleBtn;
 // 缓存导航栏左侧 menuItem 的属性
-@property (nonatomic,weak) MJMenuView * downMenu;
-
+@property (nonatomic,weak) MJCategoryController * categoryVc;
 @property (nonatomic,weak) MJHeaderFindView * findView;
 
 // 流水布局
@@ -40,26 +39,6 @@
 
 @implementation MJThemeViewController
 #pragma mark - 懒加载
-- (MJMenuView *)downMenu
-{
-    if (_downMenu == nil) {
-        
-        UIImage * placeImage = [[UIImage alloc] init];
-        
-        MJItems * item1 = [MJItems itemWithImage:placeImage title:@"123"];
-        MJItems * item2 = [MJItems itemWithImage:placeImage title:@"123"];
-        MJItems * item3 = [MJItems itemWithImage:placeImage title:@"123"];
-        MJItems * item4 = [MJItems itemWithImage:placeImage title:@"123"];
-        MJItems * item5 = [MJItems itemWithImage:placeImage title:@"123"];
-        MJItems * item6 = [MJItems itemWithImage:placeImage title:@"123"];
-        MJItems * item7 = [MJItems itemWithImage:placeImage title:@"123"];
-        
-        NSArray * itemArray = @[item1,item2,item3,item4,item5,item6,item7];
-        
-       _downMenu =  [MJMenuView showInView:self.view items:itemArray oriY:MJNaviBarHeight];
-    }
-    return _downMenu;
-}
 - (UIVisualEffectView *)blurView
 {
     if (_blurView == nil) {
@@ -147,45 +126,52 @@
     // 取反
     self.naviLeftBtn.selected = !self.naviLeftBtn.selected;
     // 旋转
-    if (self.naviLeftBtn.selected) { // 奇数次点击的话就旋转
-        
-        CABasicAnimation * rotationAnim = [CABasicAnimation animationWithKeyPath:@"transform"];
-        rotationAnim.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0, 0, 1)];
-        
-        //设置动画执行完毕后不删除动画
-        rotationAnim.removedOnCompletion = NO;
-        //设置保存动画的最新状态
-        rotationAnim.fillMode = kCAFillModeForwards;
-        rotationAnim.duration = 0.5f;
-        
-        [self.naviLeftBtn.layer addAnimation:rotationAnim forKey:@"leftNaivAnim"];
+    [self leftNaviRotationAnim];
+    
+    if (self.naviLeftBtn.selected) {
         [self blurView];
         // 弹出菜单栏
-        [self downMenu];
-    }else{ // 偶数次选中的话复原
+        UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
+        layout.minimumLineSpacing = 1;
+        layout.minimumInteritemSpacing = 1;
+        MJCategoryController * vc = [[MJCategoryController alloc] initWithCollectionViewLayout:layout];
         
-        CABasicAnimation * rotationAnim = [CABasicAnimation animationWithKeyPath:@"transform"];
-        rotationAnim.fromValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0, 0, 1)];
-        rotationAnim.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(0, 0, 0, 1)];
-        //设置动画执行完毕后不删除动画
-        rotationAnim.removedOnCompletion = NO;
-        //设置保存动画的最新状态
-        rotationAnim.fillMode = kCAFillModeForwards;
-        rotationAnim.duration = 0.5f;
-        [self.naviLeftBtn.layer addAnimation:rotationAnim forKey:@"leftNaivBackAnim"];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(rotationAnim.duration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        vc.view.frame = self.view.bounds;
+        [self.view addSubview:vc.view];
+        [self addChildViewController:vc];
+        self.categoryVc = vc;
+    }else{
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.blurView removeFromSuperview];
         });
-        // 菜单栏消失
-        [self.downMenu dismiss];
+
+        [self.categoryVc dismiss];
     }
     
     
 }
-#pragma mark - 导航栏按钮的点击
+- (void)leftNaviRotationAnim
+{
+    CABasicAnimation * rotationAnim = [CABasicAnimation animationWithKeyPath:@"transform"];
+    if (self.naviLeftBtn.selected) {
+        rotationAnim.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0, 0, 1)];
+    }else{
+        rotationAnim.fromValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0, 0, 1)];
+        rotationAnim.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(0, 0, 0, 1)];
+    }
+    //设置动画执行完毕后不删除动画
+    rotationAnim.removedOnCompletion = YES;
+    //设置保存动画的最新状态
+    rotationAnim.fillMode = kCAFillModeForwards;
+    rotationAnim.duration = 0.5f;
+    [self.naviLeftBtn.layer addAnimation:rotationAnim forKey:nil];
 
+}
+#pragma mark - 导航栏按钮的点击
 - (CGSize)changLayoutItemSize
 {
+    
     if (self.naviChangeBtn.selected) {
         return CGSizeMake((MJScreenW - 2.5 * MJDefaultMargin)/2.0f, 170);
     }else{
@@ -196,6 +182,8 @@
 - (void)rightNaviChangeClick
 {
     self.naviChangeBtn.selected = !self.naviChangeBtn.selected;
+    // 发送通知
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"NotificationLayoutChange" object:self.naviChangeBtn];
     if (self.naviChangeBtn.selected) { // 更换一行两个文章的布局
         self.layout.itemSize = [self changLayoutItemSize];
     }else{ // 更换一行一个文章的布局
@@ -235,4 +223,5 @@
         
     }
 }
+
 @end

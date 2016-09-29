@@ -7,21 +7,21 @@
 //
 
 #import "MJNetTools.h"
-
-@interface AFHTTPSessionManager (share)
-// 设置请求为单例
-+ (instancetype)shareManager;
+#import "MJCommonAPIConstant.h"
+@interface AFHTTPSessionManager (Shared)
+// 设置为单利
++ (instancetype)sharedManager;
 @end
-@implementation AFHTTPSessionManager (share)
 
-//- (NSURLSessionDataTask *)GET:(NSString *)URLString parameters:(id)parameters progress:(void (^)(NSProgress * _Nonnull))downloadProgress success:(void (^)(NSURLSessionDataTask * _Nonnull, id _Nullable))success failure:(void (^)(NSURLSessionDataTask * _Nullable, NSError * _Nonnull))failure{}
-+ (instancetype)shareManager
-{
-    static AFHTTPSessionManager * _instance;
-    static dispatch_once_t once_token;
-    dispatch_once(&once_token, ^{
+@implementation AFHTTPSessionManager (Shared)
+
++ (instancetype)sharedManager {
+    
+    static AFHTTPSessionManager *_instance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         _instance = [AFHTTPSessionManager manager];
-        _instance.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/plain",@"text/javascript",@"text/html", nil];
+        _instance.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/plain", @"text/json", @"text/javascript", @"text/html", nil];
     });
     return _instance;
 }
@@ -29,7 +29,37 @@
 
 @implementation MJNetTools
 
-// theme 请求数据获取
+// theme 文章 请求数据获取
++ (void)requestThemeParameters:(id)parameters success:(successBlock)success failure:(failureBlock)failure
+{
+    AFHTTPSessionManager * manager = [AFHTTPSessionManager sharedManager];
+    
+    [manager GET:kMJThemeArticleListHead parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (success) {
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (error) {
+            NSLog(@"%@",error);
+        }
+    }];
+}
+// theme 分类栏 请求数据获取
++ (void)requestThemeCategory:(successBlock)success failure:(failureBlock)failure
+{
+    AFHTTPSessionManager * manager = [AFHTTPSessionManager sharedManager];
+    
+    [manager GET:kMJThemeCategoryAPI parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (success) {
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (error) {
+            NSLog(@"%@",error);
+        }
+    }];
+}
+
 
 
 @end
