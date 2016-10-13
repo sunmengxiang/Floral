@@ -7,21 +7,20 @@
 //
 
 #import "AppDelegate.h"
-#import "MJMainTabBarController.h"
-@interface AppDelegate ()
+#import "MJNewFeatureViewController.h"
 
+@interface AppDelegate ()
 @end
 
 @implementation AppDelegate
-
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-    MJMainTabBarController * tabBarVc = [[MJMainTabBarController alloc] init];
-    self.window.rootViewController = tabBarVc;
+//  判断是否是最新版本，YES-->返回新特性页，NO-->返回 TabBarController
+    self.window.rootViewController = [MJNewFeatureViewController show];
     
     [self.window makeKeyAndVisible];
     return YES;

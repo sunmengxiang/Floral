@@ -35,6 +35,7 @@ typedef NS_ENUM(NSInteger,MJPushFromControllStyle) {
 @property (weak,nonatomic) UICollectionViewFlowLayout * layout;
 // 记录是从那个地方 push 过来的
 @property (assign,nonatomic) MJPushFromControllStyle pushFromStyle;
+@property (nonatomic,weak) UIView * contentView;
 @property (weak,nonatomic) UIButton * categoryVcRightBtn;
 @end
 
@@ -49,6 +50,7 @@ static NSString * const smallThemeCellID = @"smallThemeCell";
     }
     return _artitleListArray;
 }
+// 只有从 category 控制器跳转才会来到这里
 - (void)setCategoryFromCategoryVc:(MJThemeCategory *)categoryFromCategoryVc
 {
     _categoryFromCategoryVc = categoryFromCategoryVc;
@@ -76,7 +78,9 @@ static NSString * const smallThemeCellID = @"smallThemeCell";
 #pragma mark - 初始设置
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    NSLog(@"viewDidLoad---%p",self);
+    // 默认不是小块的布局
+    self.isSmallLayout = NO;
     [self setUpCollectionView];
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1];
     self.collectionView.backgroundColor = [UIColor clearColor];
@@ -92,13 +96,7 @@ static NSString * const smallThemeCellID = @"smallThemeCell";
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    if (self.pushFromStyle == MJPushFromControllStyleCategory) {
-        UIEdgeInsets insets = UIEdgeInsetsMake(10, 10, 0, 10);
-        [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view).with.insets(insets);
-        }];
-    }
-    self.collectionView.frame = self.view.bounds;
+//    self.collectionView.frame = self.contentView.bounds;
 }
 - (void)setUpRefresh
 {
@@ -139,15 +137,28 @@ static NSString * const smallThemeCellID = @"smallThemeCell";
 #pragma mark - 设置 collectionView
 - (void)setUpCollectionView
 {
+    // 创建容纳collectionView 的 contentView
+    UIView * contentView = [[UIView alloc] init];
+    UIEdgeInsets insets = UIEdgeInsetsMake(10, 10, 0, 10);
+    [self.view addSubview:contentView];
+    [contentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view).with.insets(insets);
+    }];
+    self.contentView = contentView;
+    
+    // 设置 collectionView
     UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
     self.layout = layout;
     layout.itemSize = [self LayoutItemSize];
     layout.minimumLineSpacing = self.isSmallLayout? 5:10;
-    layout.minimumInteritemSpacing = 5;
+    layout.minimumInteritemSpacing = 0;
     UICollectionView * collectionV = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
     collectionV.delegate = self;
     collectionV.dataSource = self;
-    [self.view addSubview:collectionV];
+    [self.contentView addSubview:collectionV];
+    [collectionV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.contentView).with.insets(UIEdgeInsetsZero);
+    }];
     self.collectionView = collectionV;
 }
 # pragma mark - 发送请求,加载数据
@@ -155,6 +166,7 @@ static NSString * const smallThemeCellID = @"smallThemeCell";
 {
     self.currentPage = 0;
     [self.collectionView.mj_footer endRefreshing];
+    self.collectionView.mj_footer.alpha = 0;
     NSMutableDictionary * parameters = [NSMutableDictionary dictionary];
     parameters[@"action"] = @"mainList_NewVersion";
     parameters[@"currentPageIndex"] = @"0";
@@ -179,6 +191,8 @@ static NSString * const smallThemeCellID = @"smallThemeCell";
         [self.collectionView reloadData];
         
         [self.collectionView.mj_header endRefreshing];
+        
+        self.collectionView.mj_footer.alpha = 1;
         
     } failure:^(NSError *error) {
         NSLog(@"%@",error);
@@ -218,7 +232,7 @@ static NSString * const smallThemeCellID = @"smallThemeCell";
     }];
     
 }
-#pragma mark -<UICollectionViewDataSource>
+#pragma mark - <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
@@ -248,5 +262,11 @@ static NSString * const smallThemeCellID = @"smallThemeCell";
     MJArticleViewController * articleVc = [[MJArticleViewController alloc] init];
     articleVc.theme = self.artitleListArray[indexPath.item];
     [self.navigationController pushViewController:articleVc animated:YES];
+}
+#pragma mark - 移除通知
+- (void)dealloc
+{
+    NSLog(@"dealloc----%p",self);
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NotificationLayoutChange" object:nil];
 }
 @end

@@ -26,6 +26,7 @@
 @property (nonatomic,weak) UIButton * naviTitleBtn;
 // 缓存导航栏左侧 menuItem 的属性
 @property (nonatomic,weak) MJCategoryController * categoryVc;
+
 @property (nonatomic,weak) MJHeaderFindView * findView;
 // 流水布局
 @property (nonatomic,weak) UICollectionViewFlowLayout * layout;
@@ -65,10 +66,7 @@
     self.contentViewVc = Vc;
     
     [self.view addSubview:Vc.view];
-    UIEdgeInsets insets = UIEdgeInsetsMake(10, 10, 0, 10);
-   [Vc.view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view).with.insets(insets);
-    }];
+    Vc.view.frame = self.view.bounds;
     [self addChildViewController:Vc];
 }
 // 设置导航栏的样式
@@ -102,7 +100,6 @@
     UIFont * naviTitleFont = [UIFont systemFontOfSize:MJNaviTitleFontSize];
     [titleBtn.titleLabel setFont:naviTitleFont];
     [titleBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    
     
     [titleBtn setImage:[UIImage imageNamed:@"hp_arrow_down"] forState:UIControlStateNormal];
     [titleBtn setImage:[UIImage imageNamed:@"hp_arrow_up"] forState:UIControlStateSelected];

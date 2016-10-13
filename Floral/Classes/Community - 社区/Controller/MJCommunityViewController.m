@@ -8,12 +8,14 @@
 
 #import "MJCommunityViewController.h"
 #import "MJEssenViewController.h"
-
+#import "MJTop10ViewController.h"
 @interface MJCommunityViewController ()
 @property (nonatomic,weak) UIButton * essenceBtn;
 @property (nonatomic,weak) UIButton * organizationBtn;
 @property (nonatomic,weak) UIButton * followBtn;
 @property (nonatomic,weak) UIView * pointerView;
+
+@property (nonatomic,weak) MJEssenViewController * essenceController;
 @end
 
 @implementation MJCommunityViewController
@@ -22,6 +24,7 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
+    
     [self setUpNaviBar];
 }
 
@@ -90,13 +93,17 @@
     self.navigationItem.titleView = titleView;
 
 }
+// 订阅
 - (void)leftBtnClick
 {
     
 }
+// TOP10
 - (void)rightBtnClick
 {
+    MJTop10ViewController * TOP10Vc = [[MJTop10ViewController alloc] init];
     
+    [self.navigationController pushViewController:TOP10Vc animated:YES];
 }
 - (void)essenceBtnClick
 {
@@ -108,17 +115,20 @@
     [UIView animateWithDuration:0.3 animations:^{
         self.pointerView.center = pointCenter;
     }];
-    self.view.translatesAutoresizingMaskIntoConstraints = NO;
+//    self.view.translatesAutoresizingMaskIntoConstraints = NO;
     // 设置 collectionView 布局
+    if (self.essenceController == nil) {
     UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.itemSize = CGSizeMake((MJScreenW - MJDefaultMargin * 0.5) / 2.0f,100);
+    layout.itemSize = CGSizeMake((MJScreenW - MJDefaultMargin * 0.5) / 2.0f,(MJScreenW - MJDefaultMargin * 0.5) / 2.0f *(10.0/9.0));
     layout.minimumLineSpacing = (MJDefaultMargin )/ 2.0f;
     layout.minimumInteritemSpacing = (MJDefaultMargin )/ 2.0f;
     // 创建 collectionVc
     MJEssenViewController * essenceVc = [[MJEssenViewController alloc] initWithCollectionViewLayout:layout];
+    self.essenceController = essenceVc;
     [self addChildViewController:essenceVc];
     essenceVc.view.frame = self.view.bounds;
     [self.view addSubview:essenceVc.view];
+    }
 }
 - (void)organizationBtnClick
 {

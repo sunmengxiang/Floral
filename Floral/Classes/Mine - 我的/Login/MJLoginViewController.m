@@ -13,34 +13,44 @@
 @property (weak, nonatomic) IBOutlet UITextField *phoneField;
 
 @property (weak, nonatomic) IBOutlet UITextField *pswField;
+
+/** isLogin */
+@property (assign ,nonatomic) BOOL  isLogin;
 @end
 
 @implementation MJLoginViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    
 }
 
+- (instancetype)init
+{
+    if (self == [super init]) {
+        
+    }
+    return self;
+}
++ (instancetype)loginViewController
+{
+    return [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass(self) owner:nil options:nil ]lastObject];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 - (IBAction)loginClick {
 }
 - (IBAction)backClick {
+    [self dismissViewControllerAnimated:NO completion:nil];
+    NSLog(@"0");
 }
 - (IBAction)closeClick {
+    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 @end

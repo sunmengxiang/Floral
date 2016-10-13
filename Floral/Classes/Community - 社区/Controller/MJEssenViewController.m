@@ -10,9 +10,14 @@
 #import "MJHeadReusableView.h"
 #import "MJNetTools.h"
 #import "MJEssencesAds.h"
+#import "MJEssenceTags.h"
+#import "MJEssenceTagsCell.h"
+
 @interface MJEssenViewController ()
-// 模型 数组
+// 轮播图模型 数组
 @property (nonatomic,strong) NSArray * essenceAdsArray;
+// tag 标签模型 数组
+@property (nonatomic,strong) NSArray * essenceTagsArray;
 @end
 
 @implementation MJEssenViewController
@@ -21,20 +26,22 @@ static NSString * const reuseIdentifier = @"Cell";
 static NSString * const reuseHeadIndentifier = @"HeaderView";
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // Uncomment the following line to preserve selection between presentations
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
+    self.automaticallyAdjustsScrollViewInsets = NO;
     // Register cell classes
-    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
+
+    [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([MJEssenceTagsCell class]) bundle:nil] forCellWithReuseIdentifier:reuseIdentifier];
     // 注册 headerView
     [self.collectionView registerClass:[MJHeadReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:reuseHeadIndentifier];
     
     // 加载广告轮播图数据
     [self loadAdsData];
+    
+    [self loadTagsData];
+    
+    self.collectionView.backgroundColor = [UIColor whiteColor];
 }
 
-
+#pragma mark - loadData
 - (void)loadAdsData
 {
     [MJNetTools requestCommunityAds:^(id responseObject) {
@@ -44,40 +51,54 @@ static NSString * const reuseHeadIndentifier = @"HeaderView";
         for (NSDictionary * dict in array) {
             MJEssencesAds * ads = [[MJEssencesAds alloc] initWithDict:dict];
             [arrM addObject:ads];
-            [self.collectionView reloadData];
         }
         self.essenceAdsArray = arrM;
+        [self.collectionView reloadData];
     } failure:^(NSError *error) {
         NSLog(@"communityAdsRequest---%@",error);
     }];
 }
 
-#pragma mark <UICollectionViewDataSource>
+- (void)loadTagsData
+{
+    NSMutableDictionary * parameter = [NSMutableDictionary dictionary];
+    parameter[@"action"] = @"getJianOrJingList";
+    parameter[@"currentPageIndex"] = @"0";
+    parameter[@"pageSize"] = @"0";
+    parameter[@"type"] = @"荐";
+    parameter[@"userId"] = @"";
+    [MJNetTools requestCommunityEssenceParameter:parameter success:^(id responseObject) {
+        NSArray * array = responseObject[@"result"];
+        NSLog(@"Arrary---%@",array);
+        NSMutableArray * arrM = [NSMutableArray array];
+        for (NSDictionary *dict in array) {
+            MJEssenceTags * tags = [[MJEssenceTags alloc] initWithDict:dict];
+            [arrM addObject:tags];
+        }
+        self.essenceTagsArray = arrM;
+        
+        [self.collectionView reloadData];
 
+    } failure:^(NSError *error) {
+        
+        NSLog(@"loadTagsDataError----%@",error);
+    }];
+}
+#pragma mark <UICollectionViewDataSource>
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
 }
-
-
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 100;
+    return self.essenceTagsArray.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    
-    if (indexPath.item % 3 == 0) {
-        cell.backgroundColor = [UIColor redColor];
-    }else if (indexPath.item % 3 == 1)
-    {
-        cell.backgroundColor = [UIColor greenColor];
-    }else{
-        cell.backgroundColor = [UIColor blueColor];
-    }
+    MJEssenceTagsCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    cell.essenceTag = self.essenceTagsArray[indexPath.item];
     
     return cell;
 }
-// 创建类似 tableVieHeaderView
+#pragma mark - 创建类似 tableVieHeaderView
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionReusableView *reusableview = nil;
@@ -86,8 +107,8 @@ static NSString * const reuseHeadIndentifier = @"HeaderView";
         
         MJHeadReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:reuseHeadIndentifier forIndexPath:indexPath];
         
-        headerView.headerTitle = @"每日精选";
         headerView.adsArray = self.essenceAdsArray;
+        headerView.headerTitle = @"每日精选";
         reusableview = headerView;
     }
     
@@ -96,38 +117,8 @@ static NSString * const reuseHeadIndentifier = @"HeaderView";
 // 设置 headerView  size
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
 {
-    
-    return CGSizeMake(MJScreenW, 150);
-}
-#pragma mark <UICollectionViewDelegate>
-
-/*
-// Uncomment this method to specify if the specified item should be highlighted during tracking
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
-}
-*/
-
-/*
-// Uncomment this method to specify if the specified item should be selected
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-*/
-
-/*
-// Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
-	return NO;
+    return CGSizeMake(MJScreenW, 220);
 }
 
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	return NO;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	
-}
-*/
 
 @end

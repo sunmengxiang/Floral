@@ -9,10 +9,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="bigThemeCell" id="gTV-IL-0wX" customClass="MJThemeCell">
-            <rect key="frame" x="0.0" y="0.0" width="701" height="658"/>
+            <rect key="frame" x="0.0" y="0.0" width="1403" height="1488"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="701" height="658"/>
+                <rect key="frame" x="0.0" y="0.0" width="1403" height="1488"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hC1-Ky-Aab" userLabel="bigImage"/>
@@ -141,7 +141,7 @@
                 <constraint firstAttribute="trailing" secondItem="hC1-Ky-Aab" secondAttribute="trailing" id="iyk-7a-Q0f"/>
                 <constraint firstAttribute="trailing" secondItem="nz0-VW-cfe" secondAttribute="trailing" constant="10" id="jE4-1a-Bi3"/>
             </constraints>
-            <size key="customSize" width="701" height="658"/>
+            <size key="customSize" width="1403" height="1488"/>
             <connections>
                 <outlet property="bigImage" destination="hC1-Ky-Aab" id="HUe-zm-zSb"/>
                 <outlet property="commentCountBtn" destination="Jut-n8-Lwo" id="qGd-0Z-ClB"/>
@@ -155,7 +155,7 @@
                 <outlet property="titleLabel" destination="1v7-5E-172" id="fdG-HT-Wd1"/>
                 <outlet property="vipImage" destination="axm-AI-Vhe" id="ePT-w3-sQp"/>
             </connections>
-            <point key="canvasLocation" x="-671" y="29"/>
+            <point key="canvasLocation" x="-320.5" y="444"/>
         </collectionViewCell>
     </objects>
     <resources>

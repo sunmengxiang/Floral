@@ -20,4 +20,6 @@
 #import "UIButton+MJTitleButton.h"
 #define MJScreenW [UIScreen mainScreen].bounds.size.width
 #define MJScreenH [UIScreen mainScreen].bounds.size.height
+#define MJScreenBounds [UIScreen mainScreen].bounds
+#define MJKeyWindow [UIApplication sharedApplication].keyWindow
 #endif /* PrefixHeader_pch */

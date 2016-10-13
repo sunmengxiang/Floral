@@ -75,6 +75,34 @@
         }
     }];
 }
-
-
+// community 帖子数据
++ (void)requestCommunityEssenceParameter:(id)paramater success:(successBlock)success failure:(failureBlock)failure
+{
+    AFHTTPSessionManager * manager = [AFHTTPSessionManager sharedManager];
+    
+    [manager GET:kMJCommunityTagsListAPI parameters:paramater progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (success) {
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (error) {
+            failure(error);
+        }
+    }];
+}
+// community TOP10请求
++ (void)requestCommunityTOP10:(successBlock)success failure:(failureBlock)failure
+{
+    AFHTTPSessionManager * manager = [AFHTTPSessionManager sharedManager];
+    
+    [manager GET:kMJCommunityTOP10API parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (success) {
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (error) {
+            failure(error);
+        }
+    }];
+}
 @end

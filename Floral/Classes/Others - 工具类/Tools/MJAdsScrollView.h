@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-// 轮播图
+// 轮播图 出现加载缓慢问题，暂时使用第三方框架，后续再次 check 后使用
 typedef NS_ENUM(NSUInteger, UIPageControlShowStyle)
 {
     UIPageControlShowStyleNone,//default

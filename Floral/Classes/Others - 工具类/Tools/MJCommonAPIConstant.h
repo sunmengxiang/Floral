@@ -25,6 +25,8 @@ UIKIT_EXTERN NSString *const kMJThemeArticleAPI;
 #pragma mark -community-社区的请求路径
 // 每周 TOP10的获取
 UIKIT_EXTERN NSString *const kMJCommunityTOP10API;
-// 社区页面头部轮播图列表
+// 社区页面-->精选页面头部轮播图列表
 UIKIT_EXTERN NSString *const kMJCommunityAdsListAPI;
+// 社区页面-->精选页面 tag 列表
+UIKIT_EXTERN NSString *const kMJCommunityTagsListAPI;
 @end

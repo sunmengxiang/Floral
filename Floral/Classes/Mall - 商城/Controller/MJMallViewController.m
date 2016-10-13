@@ -20,12 +20,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.view.backgroundColor = [UIColor whiteColor];
     
     [self setUpNaviBar];
-    // 设置轮播图
+    
+    [self setUpAlertMessage];
 
 }
-
+- (void)setUpAlertMessage
+{
+    UILabel * alertLabel = [[UILabel alloc] init];
+    
+    alertLabel.text = @"功能暂未开通";
+    alertLabel.textAlignment = NSTextAlignmentCenter;
+    
+    alertLabel.center = self.view.center;
+    alertLabel.bounds = CGRectMake(0, 0, MJScreenW, 50);
+    alertLabel.font = [UIFont systemFontOfSize:25];
+    alertLabel.textColor = [UIColor blackColor];
+    [self.view addSubview:alertLabel];
+}
 - (void)setUpNaviBar
 {
     //    查找按钮

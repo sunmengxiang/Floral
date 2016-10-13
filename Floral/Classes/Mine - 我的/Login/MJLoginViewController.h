@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface MJLoginViewController : UIViewController
-
++ (instancetype)loginViewController;
 @end

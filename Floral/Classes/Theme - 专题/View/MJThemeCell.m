@@ -39,7 +39,6 @@
     _theme = theme;
     [self.bigImage sd_setImageWithURL:[NSURL URLWithString:theme.smallIcon]];
     [self.iconImage setHeader:theme.author.headImg];
-//    [self.iconImage sd_setImageWithURL:[NSURL URLWithString:theme.author.headImg] placeholderImage:nil];
     self.nameLabel.text = theme.author.userName;
     self.personDetailabel.text = theme.author.identity;
     self.tagLabel.text = [NSString stringWithFormat:@"[%@]",theme.category.name];

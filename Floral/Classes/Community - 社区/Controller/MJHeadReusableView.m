@@ -7,67 +7,52 @@
 //
 
 #import "MJHeadReusableView.h"
-#import "MJAdsScrollView.h"
+//#import "MJAdsScrollView.h"
+#import "SDCycleScrollView.h"
 #import "MJEssencesAds.h"
 #import <UIImageView+WebCache.h>
-#define  HEADLABELHEIGHT  20.0f
+#define  HEADLABELHEIGHT  25.0f
 #define HEADHEIGHT  self.bounds.size.height
 #define HEADWIDTH   self.bounds.size.width
-@interface MJHeadReusableView ()
-@property (nonatomic,strong) NSMutableArray * imageArray;
-@property (nonatomic,weak) MJAdsScrollView * adsView;
+@interface MJHeadReusableView ()<SDCycleScrollViewDelegate>
+
+//@property (nonatomic,weak) MJAdsScrollView * adsView;
+@property (nonatomic,strong) NSMutableArray * imageUrlArray;
 @property (nonatomic,weak) UILabel * headerLabel;
 @property (nonatomic,weak) UIView * titleView;
 @end
 @implementation MJHeadReusableView
-
-- (NSMutableArray *)imageArray
+- (NSMutableArray *)imageUrlArray
 {
-    if (_imageArray == nil) {
-        _imageArray = [NSMutableArray array];
+    if (_imageUrlArray.count == 0) {
+        _imageUrlArray = [NSMutableArray array];
+        
+        for (MJEssencesAds * ads in self.adsArray) {
+            NSURL * imageUrl = [NSURL URLWithString:ads.imageUrl];
+            [_imageUrlArray addObject:imageUrl];
+        }
     }
-    return _imageArray;
+    return _imageUrlArray;
 }
 - (void)setAdsArray:(NSArray *)adsArray
 {
     _adsArray = adsArray;
-    // 开启子线程下载图片
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-    for (MJEssencesAds * ads in adsArray) {
-      
-             NSURL * url = [NSURL URLWithString:ads.imageUrl];
-             NSData * imageData = [NSData dataWithContentsOfURL:url];
-             UIImage * image = [UIImage imageWithData:imageData];
-             [self.imageArray addObject:image];
-        NSLog(@"下载完成----%@",image);}
-             // 回到主线程
-             dispatch_async(dispatch_get_main_queue(), ^{
-                 NSLog(@"更新-----");
-                 // 有数据才加载
-                 [self setUpAdsView];
-                 
-                 [self setUpTitleView];
-             });
-         });
     
-
+    [self setUpAdsView];
     
+    [self setUpTitleView];
 }
 
 - (void)setUpAdsView
 {
-    NSLog(@"%@",self.imageArray);
-    MJAdsScrollView * adsV = [[MJAdsScrollView alloc] init];
-    self.adsView = adsV;
-    [self addSubview:adsV];
-    CGFloat h = HEADHEIGHT - HEADLABELHEIGHT;
-    adsV.frame = self.bounds;
-    // 修改高度
-    adsV.height = h;
-    adsV.imageArray = self.imageArray;
-    if (self.adsArray) {
-    [adsV setPageControlShowStyle:UIPageControlShowStyleRight];
-    }
+    CGRect scrollViewframe = CGRectMake(0, 0, MJScreenW, HEADHEIGHT - HEADLABELHEIGHT);
+    // 网络加载图片的轮播器
+    SDCycleScrollView *cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:scrollViewframe delegate:self placeholderImage:nil];
+//    cycleScrollView.delegate = self;
+    cycleScrollView.imageURLStringsGroup = self.imageUrlArray;
+    
+    [self addSubview:cycleScrollView];
+
 }
 - (void)setUpTitleView
 {
@@ -81,7 +66,7 @@
     UILabel * label = [[UILabel alloc]init];
     self.headerLabel = label;
     [label setTextAlignment:NSTextAlignmentLeft];
-    [label setFont:[UIFont systemFontOfSize:13]];
+    [label setFont:[UIFont systemFontOfSize:15]];
     [label setTextColor:[UIColor blackColor]];
     label.frame = self.titleView.bounds;
     [self.titleView addSubview:self.headerLabel];
@@ -94,5 +79,9 @@
 {
     [super layoutSubviews];
 
+}
+- (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index
+{
+    
 }
 @end

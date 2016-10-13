@@ -16,12 +16,12 @@ NSString * const kMJThemeCategoryAPI = @"http://m.htxq.net/servlet/SysCategorySe
 NSString * const kMJThemeArticleListHead = @"http://m.htxq.net/servlet/SysArticleServlet";
 
 #pragma mark -community-社区的请求路径
-/** 每周TOP10的请求路径*/
-NSString *const kMJCommunityTOP10API = @"http://ec.htxq.net/servlet/SysArticleServlet?currentPageIndex=0&pageSize=10";
+/** 每周TOP10的请求路径 10.1已修正*/
+NSString *const kMJCommunityTOP10API = @"http://m.htxq.net/servlet/UserBbsServlet?action=TopBbsAuthor&(null)=";
 /** 社区页面头部轮播图列表 10.1已修正*/
 NSString *const kMJCommunityAdsListAPI = @"http://m.htxq.net/servlet/SysAdvertisingServlet?action=getAdList";
-/**社区页面请求*/
-NSString *const kMJCommunityAPI  = @"http://m.htxq.net/servlet/UserBbsServlet?action=getJianOrJingList&currentPageIndex=0&pageSize=0&type=荐";
+/** 社区页面头精选tag列表 10.1已修正*/
+NSString *const kMJCommunityTagsListAPI = @"http://m.htxq.net/servlet/UserBbsServlet?";
 
 #pragma mark -商场页面的请求
 /**商场页面轮播图请求*/
