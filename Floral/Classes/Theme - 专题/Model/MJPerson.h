@@ -10,13 +10,17 @@
 
 @interface MJPerson : NSObject
 /** 订阅数 */
-@property ( assign ,nonatomic)   NSInteger  experience;
+@property (assign ,nonatomic)  NSInteger  experience;
 /** icon */
 @property (strong ,nonatomic) NSString * headImg;
 /** personDetail */
 @property (strong ,nonatomic) NSString * identity;
 /** followCount */
-@property ( assign ,nonatomic)  NSInteger  subscribeNum;
+@property (assign ,nonatomic)  NSInteger  subscibeNum;
 /** name */
-@property ( assign ,nonatomic)  NSString*  userName;
+@property (strong ,nonatomic)  NSString *  userName;
+/** categoryID */
+@property (strong ,nonatomic) NSString * ID;
+
+- (instancetype)initWithDict:(NSDictionary *)dict;
 @end

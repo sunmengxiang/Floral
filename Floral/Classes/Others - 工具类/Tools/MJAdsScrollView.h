@@ -18,7 +18,7 @@ typedef NS_ENUM(NSUInteger, UIPageControlShowStyle)
 };
 @interface MJAdsScrollView : UIScrollView<UIScrollViewDelegate>
 @property (retain,nonatomic,readonly) UIPageControl * pageControl;
-@property (retain,nonatomic,readwrite) NSArray * imageArray;
+@property (strong,nonatomic,readwrite) NSArray * imageArray;
 @property (assign,nonatomic,readwrite) UIPageControlShowStyle  PageControlShowStyle;
 
 @end

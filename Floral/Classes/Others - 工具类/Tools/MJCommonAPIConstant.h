@@ -14,8 +14,7 @@
 UIKIT_EXTERN NSString * const kMJThemeCategoryAPI;
 /** Theme 文章请求头 POST*/
 UIKIT_EXTERN NSString * const kMJThemeArticleListHead;
-/** 获取首页的文章请求体//需添加&currentPageIndex=0 下一页改为1 &isVideo=false */
-UIKIT_EXTERN NSString * const kMJThemeArticleListBody;
+
 // 获取首页视频列表
 UIKIT_EXTERN NSString *const kMJThemeVideoListAPI;
 // 获取首页 menu 列表

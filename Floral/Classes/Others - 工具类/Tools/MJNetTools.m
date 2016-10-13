@@ -32,6 +32,7 @@
 // theme 文章 请求数据获取
 + (void)requestThemeParameters:(id)parameters success:(successBlock)success failure:(failureBlock)failure
 {
+    
     AFHTTPSessionManager * manager = [AFHTTPSessionManager sharedManager];
     
     [manager GET:kMJThemeArticleListHead parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -40,7 +41,7 @@
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (error) {
-            NSLog(@"%@",error);
+            failure(error);
         }
     }];
 }
@@ -55,11 +56,25 @@
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (error) {
-            NSLog(@"%@",error);
+            failure(error);
         }
     }];
 }
-
+// community 精选 广告轮播图数据
++ (void)requestCommunityAds:(successBlock)success failure:(failureBlock)failure
+{
+    AFHTTPSessionManager * manager = [AFHTTPSessionManager sharedManager];
+    
+    [manager GET:kMJCommunityAdsListAPI parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (success) {
+        success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (error) {
+        failure(error);
+        }
+    }];
+}
 
 
 @end

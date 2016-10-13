@@ -7,13 +7,19 @@
 //
 
 #import "MJThemeCategory.h"
+@interface MJThemeCategory ()
 
+@end
 @implementation MJThemeCategory
 - (instancetype)initWithDict:(NSDictionary *)dict
 {
     MJThemeCategory * cate = [[MJThemeCategory alloc] init];
-    [cate setValuesForKeysWithDictionary:dict];
-    
+    [cate setValue:dict[@"createDate"] forKey:@"createDate"];
+    [cate setValue:dict[@"enName"] forKey:@"enName"];
+    [cate setValue:dict[@"img"] forKey:@"img"];
+    [cate setValue:dict[@"name"] forKey:@"name"];
+    [cate setValue:dict[@"order"] forKey:@"order"];
+    [cate setValue:dict[@"id"] forKey:@"ID"];
     return cate;
 }
 @end

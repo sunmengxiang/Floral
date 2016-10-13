@@ -18,3 +18,5 @@ CGFloat const MJNaviBarHeight = 64;
 CGFloat const MJTabBarHeight = 44;
 /** 一个导航栏title的宽度 **/
 CGFloat const MJNaviTitleViewWidth = 55;
+/** 首页文章图片原始比例（宽/高比） **/
+CGFloat const MJThemeArticleImgRatio = 690.0/345.0;

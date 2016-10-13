@@ -7,6 +7,7 @@
 //
 
 #import "MJAdsScrollView.h"
+#import "MJEssencesAds.h"
 #define SCROLLHEIGHT  self.bounds.size.height
 #define SCROLLWIDTH   self.bounds.size.width
 
@@ -64,7 +65,7 @@ static NSTimeInterval const circlePicTime = 0.3f;
         [self addSubview:self.centerImageView];
        
         self.leftImageView.image = self.imageArray[0];
-        self.centerImageView.image = self.imageArray[1];
+        self.centerImageView = self.imageArray[1];
         if (self.imageArray.count == 2) { // 万一轮播图片只有两张去循环轮播
             self.rightImageView.image = self.imageArray[0];
         } else{
@@ -159,6 +160,7 @@ static NSTimeInterval const circlePicTime = 0.3f;
     }
     NSInteger rightImagePage = (self.currentPage + 1) % self.imageArray.count;
     self.leftImageView.image = self.imageArray[leftImagePage];
+    
     self.rightImageView.image = self.imageArray[rightImagePage];
     self.centerImageView.image = self.imageArray[self.currentPage];
     if (!self.isThumbOn) {

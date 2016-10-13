@@ -17,4 +17,5 @@ typedef void(^failureBlock)(NSError *  error);
 
 + (void)requestThemeParameters:(id)parameters success:(successBlock)success failure:(failureBlock)failure;
 + (void)requestThemeCategory:(successBlock)success failure:(failureBlock)failure;
++ (void)requestCommunityAds:(successBlock)success failure:(failureBlock)failure;
 @end

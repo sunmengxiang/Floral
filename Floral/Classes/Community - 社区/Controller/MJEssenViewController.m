@@ -8,8 +8,11 @@
 
 #import "MJEssenViewController.h"
 #import "MJHeadReusableView.h"
+#import "MJNetTools.h"
+#import "MJEssencesAds.h"
 @interface MJEssenViewController ()
-
+// 模型 数组
+@property (nonatomic,strong) NSArray * essenceAdsArray;
 @end
 
 @implementation MJEssenViewController
@@ -26,30 +29,37 @@ static NSString * const reuseHeadIndentifier = @"HeaderView";
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
     // 注册 headerView
     [self.collectionView registerClass:[MJHeadReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:reuseHeadIndentifier];
+    
+    // 加载广告轮播图数据
+    [self loadAdsData];
 }
 
 
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)loadAdsData
+{
+    [MJNetTools requestCommunityAds:^(id responseObject) {
+        
+        NSArray * array = responseObject[@"result"];
+        NSMutableArray * arrM = [NSMutableArray array];
+        for (NSDictionary * dict in array) {
+            MJEssencesAds * ads = [[MJEssencesAds alloc] initWithDict:dict];
+            [arrM addObject:ads];
+            [self.collectionView reloadData];
+        }
+        self.essenceAdsArray = arrM;
+    } failure:^(NSError *error) {
+        NSLog(@"communityAdsRequest---%@",error);
+    }];
 }
-*/
 
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-#warning Incomplete implementation, return the number of sections
     return 1;
 }
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of items
     return 100;
 }
 
@@ -77,6 +87,7 @@ static NSString * const reuseHeadIndentifier = @"HeaderView";
         MJHeadReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:reuseHeadIndentifier forIndexPath:indexPath];
         
         headerView.headerTitle = @"每日精选";
+        headerView.adsArray = self.essenceAdsArray;
         reusableview = headerView;
     }
     

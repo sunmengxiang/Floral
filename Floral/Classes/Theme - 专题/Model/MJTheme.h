@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-
+@class MJPerson;
+@class MJThemeCategory;
 @interface MJTheme : NSObject
 /** creatDate */
-@property (strong ,nonatomic) NSDate * creatDate;
+@property (strong ,nonatomic) NSDate * createDate;
 /** tagImg */
 @property (strong ,nonatomic) NSString * img;
 /** order */
@@ -22,17 +23,17 @@
 /** 分享链接 */
 @property (strong ,nonatomic)  NSString * sharePageUrl;
 
-
 /** title */
 @property (strong ,nonatomic) NSString * title;
 /** 评论数 */
-@property ( assign ,nonatomic)   NSUInteger  fnCommentNum;
+@property ( assign ,nonatomic)  NSUInteger  fnCommentNum;
 /** 分享数 */
-@property ( assign ,nonatomic)  NSUInteger  share;
+@property ( assign ,nonatomic) NSUInteger  share;
 /** 喜欢数 */
-@property ( assign ,nonatomic)  NSUInteger  appoint;
+@property ( assign ,nonatomic) NSUInteger  appoint;
 /** 阅读数 */
-@property ( assign ,nonatomic)   NSUInteger  read;
+@property ( assign ,nonatomic)  NSUInteger  read;
+
 /** bigImg */
 @property (strong ,nonatomic) NSString * smallIcon;
 /** tag */
@@ -41,5 +42,15 @@
 @property (strong ,nonatomic)  NSString * desc;
 /** videoUrl */
 @property (strong ,nonatomic) NSString * videoUrl;
+/** 作者信息*/
+@property (strong,nonatomic) MJPerson * author;
+/** 分类信息*/
+@property (strong,nonatomic) MJThemeCategory * category;
+/** bigItemHeight*/
+@property ( assign ,nonatomic) CGSize  bigItemSize;
+/** smallItemHeight*/
+@property ( assign ,nonatomic) CGSize  smallItemSize;
+
+- (instancetype)initWithDict:(NSDictionary*)dict;
 @end
 

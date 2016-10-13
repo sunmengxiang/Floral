@@ -58,7 +58,6 @@
     [vc.tabBarItem setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:8],NSForegroundColorAttributeName:[UIColor blackColor]} forState:UIControlStateSelected];
     MJMainNavigationController * naviVc = [[MJMainNavigationController alloc] initWithRootViewController:vc];
     
-    
     [self addChildViewController:naviVc];
 }
 @end

@@ -7,32 +7,28 @@
 //
 
 #import "MJThemeViewController.h"
+#import "MJThemeContentController.h"
 #import "MJOrderButton.h"
 
 #import "MJCategoryController.h"
 #import "MJHeaderFindView.h"
-#import "MJCollectionController.h"
+
 #import <Masonry.h>
 
 
 @interface MJThemeViewController ()
 
 // contentView
-@property (nonatomic,weak) UIView * contentView;
+@property (nonatomic,weak) MJThemeContentController * contentViewVc;
 // 导航栏的按钮
 @property (nonatomic,weak) UIButton * naviLeftBtn;
-
-
 @property (nonatomic,weak) UIButton * naviChangeBtn;
-
 @property (nonatomic,weak) UIButton * naviTitleBtn;
 // 缓存导航栏左侧 menuItem 的属性
 @property (nonatomic,weak) MJCategoryController * categoryVc;
 @property (nonatomic,weak) MJHeaderFindView * findView;
-
 // 流水布局
 @property (nonatomic,weak) UICollectionViewFlowLayout * layout;
-
 // 高斯模糊背景
 @property (nonatomic,weak) UIVisualEffectView * blurView;
 @end
@@ -50,36 +46,31 @@
     }
     return _blurView;
 }
-- (UIView *)contentView
-{
-    if (_contentView == nil) {
-        UIView * v = [[UIView alloc] init];
-        _contentView = v;
-        [self.view addSubview:v];
-        UIEdgeInsets insets = UIEdgeInsetsMake(10, 10, 0, 10);
-        [v mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view).with.insets(insets);
-        }];
-        v.clipsToBounds = YES;
-        _contentView = v;
-        
-    }
-    return _contentView;
-}
+
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
     
     [self setUpNaviBar];
     
-    self.view.backgroundColor = [UIColor whiteColor];
-    self.contentView.backgroundColor = [UIColor blueColor];
+    self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1];
     
-    // 设置文章
-    [self setUpCollectionView];
- 
+    [self setUpContentViewVc];
 }
 
+- (void)setUpContentViewVc
+{
+    MJThemeContentController* Vc = [[MJThemeContentController alloc] init];
+    self.contentViewVc = Vc;
+    
+    [self.view addSubview:Vc.view];
+    UIEdgeInsets insets = UIEdgeInsetsMake(10, 10, 0, 10);
+   [Vc.view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view).with.insets(insets);
+    }];
+    [self addChildViewController:Vc];
+}
 // 设置导航栏的样式
 - (void)setUpNaviBar
 {
@@ -136,8 +127,8 @@
         layout.minimumInteritemSpacing = 1;
         MJCategoryController * vc = [[MJCategoryController alloc] initWithCollectionViewLayout:layout];
         
-        vc.view.frame = self.view.bounds;
-        [self.view addSubview:vc.view];
+        vc.collectionView.frame = self.view.bounds;
+        [self.view addSubview:vc.collectionView];
         [self addChildViewController:vc];
         self.categoryVc = vc;
     }else{
@@ -161,7 +152,7 @@
         rotationAnim.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(0, 0, 0, 1)];
     }
     //设置动画执行完毕后不删除动画
-    rotationAnim.removedOnCompletion = YES;
+    rotationAnim.removedOnCompletion = NO;
     //设置保存动画的最新状态
     rotationAnim.fillMode = kCAFillModeForwards;
     rotationAnim.duration = 0.5f;
@@ -169,41 +160,15 @@
 
 }
 #pragma mark - 导航栏按钮的点击
-- (CGSize)changLayoutItemSize
-{
-    
-    if (self.naviChangeBtn.selected) {
-        return CGSizeMake((MJScreenW - 2.5 * MJDefaultMargin)/2.0f, 170);
-    }else{
-        return CGSizeMake(MJScreenW - 2* MJDefaultMargin, 300);
-    }
-}
 // 右侧改变布局按钮的点击
 - (void)rightNaviChangeClick
 {
     self.naviChangeBtn.selected = !self.naviChangeBtn.selected;
     // 发送通知
     [[NSNotificationCenter defaultCenter] postNotificationName:@"NotificationLayoutChange" object:self.naviChangeBtn];
-    if (self.naviChangeBtn.selected) { // 更换一行两个文章的布局
-        self.layout.itemSize = [self changLayoutItemSize];
-    }else{ // 更换一行一个文章的布局
-        self.layout.itemSize = [self changLayoutItemSize];
-    }
 }
-- (void)setUpCollectionView
-{
 
-    UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
-    self.layout = layout;
-    layout.itemSize = [self changLayoutItemSize];
-    layout.minimumLineSpacing = 10;
-    layout.minimumInteritemSpacing = 5;
-    MJCollectionController * collectionVc = [[MJCollectionController alloc]initWithCollectionViewLayout:layout];
-    collectionVc.view.frame = self.contentView.bounds;
-    
-    [self.contentView addSubview:collectionVc.view];
-    [self addChildViewController:collectionVc];
-}
+
 // 右侧查找按钮的点击
 - (void)rightNaviFindClick
 {

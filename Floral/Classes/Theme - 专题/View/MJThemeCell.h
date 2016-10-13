@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class  MJTheme;
 @interface MJThemeCell : UICollectionViewCell
+/** mjtheme */
+@property (strong ,nonatomic) MJTheme * theme;
++ (instancetype)cellWithCollectionView:(UICollectionView *)collectionview cellIdentifier:(NSString *)identifier indexPath:(NSIndexPath *)indexPath;
 
-+ (instancetype)themeCell;
 @end

@@ -8,6 +8,7 @@
 
 #import "MJCommunityViewController.h"
 #import "MJEssenViewController.h"
+
 @interface MJCommunityViewController ()
 @property (nonatomic,weak) UIButton * essenceBtn;
 @property (nonatomic,weak) UIButton * organizationBtn;
@@ -107,7 +108,7 @@
     [UIView animateWithDuration:0.3 animations:^{
         self.pointerView.center = pointCenter;
     }];
-    
+    self.view.translatesAutoresizingMaskIntoConstraints = NO;
     // 设置 collectionView 布局
     UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
     layout.itemSize = CGSizeMake((MJScreenW - MJDefaultMargin * 0.5) / 2.0f,100);

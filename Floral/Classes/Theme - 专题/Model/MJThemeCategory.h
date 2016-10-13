@@ -25,9 +25,9 @@
 /** name */
 @property (strong ,nonatomic) NSString * name;
 /** 顺序 */
-@property ( assign ,nonatomic) NSInteger  order;
+@property (assign ,nonatomic) NSInteger  order;
 /** 顺序 */
-@property ( assign ,nonatomic) NSString*  id;
+@property (strong ,nonatomic) NSString*  ID;
 
 - (instancetype)initWithDict:(NSDictionary *)dict;
 @end

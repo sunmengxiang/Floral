@@ -28,17 +28,21 @@
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
     // 在这里设置所有的二级导航栏左侧返回按钮的样式
-    if (viewController.childViewControllers.count > 0) {
+    if (self.childViewControllers.count > 0) {
         
         UIButton * backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [backBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
-        backBtn.size = CGSizeMake(50, 44);
-        
+        backBtn.size = backBtn.currentImage.size;
+        [backBtn setImageEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 0)];
+        // 调整完按钮图片的 inset，也要调整下 content 的 inset,因为 img 和 title 的 inset 调整后，img+title 宽度是不变的，那么图片就会部分越界
+        [backBtn setContentEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 0)];
         UIBarButtonItem * barItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
-        self.navigationItem.leftBarButtonItem = barItem;
+        viewController.navigationItem.leftBarButtonItem = barItem;
         
         [backBtn addTarget:self action:@selector(backClick) forControlEvents:UIControlEventTouchUpInside];
-        
+        // 设置 title 的文字大小和字体
+        viewController.navigationController.navigationBar.titleTextAttributes = @{NSFontAttributeName:[UIFont systemFontOfSize:13],NSForegroundColorAttributeName:[UIColor blackColor]};
+        viewController.hidesBottomBarWhenPushed = YES;
     }
     
     

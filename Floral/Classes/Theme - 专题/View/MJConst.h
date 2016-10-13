@@ -16,5 +16,7 @@ UIKIT_EXTERN CGFloat const MJNaviTitleFontSize;
 UIKIT_EXTERN CGFloat const MJNaviBarHeight;
 /** tabBar的高度 **/
 UIKIT_EXTERN CGFloat const MJTabBarHeight;
-/** 一个导航栏title的宽度度 **/
+/** 一个导航栏title的宽度 **/
 UIKIT_EXTERN CGFloat const MJNaviTitleViewWidth;
+/** 首页文章图片原始比例（宽高比） **/
+UIKIT_EXTERN CGFloat const MJThemeArticleImgRatio;

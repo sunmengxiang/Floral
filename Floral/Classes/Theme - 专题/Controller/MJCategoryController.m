@@ -11,6 +11,7 @@
 #import "MJThemeCategory.h"
 
 #import "MJCategoryCell.h"
+#import "MJThemeContentController.h"
 @interface MJCategoryController ()
 @property (nonatomic,strong) NSArray * categoryArray;
 @end
@@ -22,7 +23,6 @@ static NSString * const headReuseID = @"categoryHead";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    
     // Register cell classes
     self.collectionView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
     [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([MJCategoryCell class]) bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:cellReuseID ];
@@ -43,6 +43,7 @@ static NSString * const headReuseID = @"categoryHead";
     } completion:^(BOOL finished) {
         
 //        [self.collectionView removeFromSuperview];
+        
         [self removeFromParentViewController];
         
     }];
@@ -76,17 +77,17 @@ static NSString * const headReuseID = @"categoryHead";
             [self loadDataError];
         }
     }];
+    [self downCategoryMenu];
 }
 - (void)loadDataError
 {
     self.collectionView.backgroundColor = [UIColor clearColor];
     
 }
-- (void)loadDataSuccess
+- (void)downCategoryMenu
 {
     // 往下移动的动画
     self.collectionView.transform = CGAffineTransformMakeTranslation(0, -self.collectionView.height);
-    [self.collectionView reloadData];
     self.collectionView.backgroundColor = [UIColor whiteColor];
     [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:1 initialSpringVelocity:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         
@@ -95,18 +96,22 @@ static NSString * const headReuseID = @"categoryHead";
     } completion:^(BOOL finished) {
         
     }];
-
+}
+- (void)loadDataSuccess
+{
+    
+    [self.collectionView reloadData];
+    self.collectionView.backgroundColor = [UIColor whiteColor];
 }
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-#warning Incomplete implementation, return the number of sections
+
     return 1;
 }
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of items
     return self.categoryArray.count;
 }
 
@@ -132,35 +137,11 @@ static NSString * const headReuseID = @"categoryHead";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-}
-/*
-// Uncomment this method to specify if the specified item should be highlighted during tracking
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
-}
-*/
-
-/*
-// Uncomment this method to specify if the specified item should be selected
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-*/
-
-/*
-// Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
-	return NO;
+    MJThemeCategory * c = self.categoryArray[indexPath.item];
+    MJThemeContentController * themeContentVc = [[MJThemeContentController alloc] init];
+    themeContentVc.categoryFromCategoryVc = c;
+    [self.navigationController pushViewController:themeContentVc animated:YES];
 }
 
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	return NO;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	
-}
-*/
 
 @end

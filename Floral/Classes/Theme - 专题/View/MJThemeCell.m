@@ -7,7 +7,10 @@
 //
 
 #import "MJThemeCell.h"
-
+#import "MJTheme.h"
+#import "MJPerson.h"
+#import "MJThemeCategory.h"
+#import <UIImageView+WebCache.h>
 @interface MJThemeCell ()
 @property (weak, nonatomic) IBOutlet UIImageView *bigImage;
 @property (weak, nonatomic) IBOutlet UIImageView *iconImage;
@@ -24,12 +27,26 @@
 @end
 @implementation MJThemeCell
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-}
-+ (instancetype)themeCell
++ (instancetype)cellWithCollectionView:(UICollectionView *)collectionview cellIdentifier:(NSString *)identifier indexPath:(NSIndexPath *)indexPath
 {
-    return [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass(self) owner:nil options:nil]lastObject];
+   
+    MJThemeCell * cell = [collectionview dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+
+    return cell;
+}
+- (void)setTheme:(MJTheme *)theme
+{
+    _theme = theme;
+    [self.bigImage sd_setImageWithURL:[NSURL URLWithString:theme.smallIcon]];
+    [self.iconImage setHeader:theme.author.headImg];
+//    [self.iconImage sd_setImageWithURL:[NSURL URLWithString:theme.author.headImg] placeholderImage:nil];
+    self.nameLabel.text = theme.author.userName;
+    self.personDetailabel.text = theme.author.identity;
+    self.tagLabel.text = [NSString stringWithFormat:@"[%@]",theme.category.name];
+    self.titleLabel.text = theme.title;
+    self.contentLabel.text = theme.desc;
+    [self.lookCountBtn setTitle:[NSString stringWithFormat:@"%zd",theme.read] forState:UIControlStateNormal];
+    [self.likeCountBtn setTitle:[NSString stringWithFormat:@"%zd",theme.appoint] forState:UIControlStateNormal];
+    [self.commentCountBtn setTitle:[NSString stringWithFormat:@"%zd",theme.fnCommentNum] forState:UIControlStateNormal];
 }
 @end

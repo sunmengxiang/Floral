@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iBo-Re-pB4" customClass="MJAuthorHeadView">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N3M-qQ-sV3" userLabel="name">
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4s7-op-xwe" userLabel="identifier">
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f1E-Ap-D7y" userLabel="followCount">
+                    <constraints>
+                        <constraint firstAttribute="width" constant="100" id="Bf7-fk-eJT"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ilh-rp-9RH">
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <state key="normal" image="u_follow">
+                        <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jgp-Cg-D6w" userLabel="iconImg">
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="1qg-ih-p07"/>
+                        <constraint firstAttribute="width" constant="30" id="Efl-yU-dLa"/>
+                    </constraints>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="personAuth" translatesAutoresizingMaskIntoConstraints="NO" id="1Fv-Qy-1xM" userLabel="Vip">
+                    <constraints>
+                        <constraint firstAttribute="width" constant="10" id="Q7p-60-u7H"/>
+                        <constraint firstAttribute="height" constant="10" id="gyv-xG-A35"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="ilh-rp-9RH" secondAttribute="trailing" constant="10" id="8Wl-sA-yfF"/>
+                <constraint firstItem="Jgp-Cg-D6w" firstAttribute="leading" secondItem="iBo-Re-pB4" secondAttribute="leading" constant="10" id="9wR-6b-6gb"/>
+                <constraint firstItem="4s7-op-xwe" firstAttribute="bottom" secondItem="Jgp-Cg-D6w" secondAttribute="bottom" id="J2P-4P-BoY"/>
+                <constraint firstItem="1Fv-Qy-1xM" firstAttribute="top" secondItem="Jgp-Cg-D6w" secondAttribute="bottom" constant="-8" id="LiL-4s-MtH"/>
+                <constraint firstItem="N3M-qQ-sV3" firstAttribute="top" secondItem="Jgp-Cg-D6w" secondAttribute="top" id="apA-Ox-j1I"/>
+                <constraint firstItem="ilh-rp-9RH" firstAttribute="leading" secondItem="f1E-Ap-D7y" secondAttribute="trailing" constant="10" id="c27-fX-BWS"/>
+                <constraint firstItem="4s7-op-xwe" firstAttribute="trailing" secondItem="N3M-qQ-sV3" secondAttribute="trailing" id="fWN-Cs-Baw"/>
+                <constraint firstItem="4s7-op-xwe" firstAttribute="leading" secondItem="N3M-qQ-sV3" secondAttribute="leading" id="hD0-6U-K9a"/>
+                <constraint firstItem="N3M-qQ-sV3" firstAttribute="leading" secondItem="Jgp-Cg-D6w" secondAttribute="trailing" constant="5" id="jbX-7C-QCM"/>
+                <constraint firstItem="ilh-rp-9RH" firstAttribute="centerY" secondItem="iBo-Re-pB4" secondAttribute="centerY" id="pG4-Af-5RK"/>
+                <constraint firstItem="f1E-Ap-D7y" firstAttribute="centerY" secondItem="iBo-Re-pB4" secondAttribute="centerY" id="tbr-JQ-O0k"/>
+                <constraint firstItem="1Fv-Qy-1xM" firstAttribute="leading" secondItem="Jgp-Cg-D6w" secondAttribute="trailing" constant="-8" id="try-lA-w6b"/>
+                <constraint firstItem="Jgp-Cg-D6w" firstAttribute="centerY" secondItem="iBo-Re-pB4" secondAttribute="centerY" id="wrG-IL-ohb"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="followBtn" destination="ilh-rp-9RH" id="Ftq-mb-IK3"/>
+                <outlet property="followCountLabel" destination="f1E-Ap-D7y" id="LaL-Mb-G2P"/>
+                <outlet property="iconImgV" destination="Jgp-Cg-D6w" id="c7v-Jv-gAI"/>
+                <outlet property="identifier" destination="4s7-op-xwe" id="AUC-v3-y6D"/>
+                <outlet property="nameLabel" destination="N3M-qQ-sV3" id="gOI-Ny-NZq"/>
+            </connections>
+            <point key="canvasLocation" x="-540.5" y="-336.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="personAuth" width="14" height="14"/>
+        <image name="u_follow" width="52" height="21"/>
+    </resources>
+</document>
