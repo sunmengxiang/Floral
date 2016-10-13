@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "FEF72A9B1D976315004E57B7"
-               BuildableName = "&#x8f6e;&#x64ad;&#x56fe;.app"
+               BuildableName = "Floral.app"
                BlueprintName = "Floral"
                ReferencedContainer = "container:Floral.xcodeproj">
             </BuildableReference>
@@ -53,7 +53,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FEF72A9B1D976315004E57B7"
-            BuildableName = "&#x8f6e;&#x64ad;&#x56fe;.app"
+            BuildableName = "Floral.app"
             BlueprintName = "Floral"
             ReferencedContainer = "container:Floral.xcodeproj">
          </BuildableReference>
@@ -76,7 +76,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FEF72A9B1D976315004E57B7"
-            BuildableName = "&#x8f6e;&#x64ad;&#x56fe;.app"
+            BuildableName = "Floral.app"
             BlueprintName = "Floral"
             ReferencedContainer = "container:Floral.xcodeproj">
          </BuildableReference>
@@ -102,7 +102,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FEF72A9B1D976315004E57B7"
-            BuildableName = "&#x8f6e;&#x64ad;&#x56fe;.app"
+            BuildableName = "Floral.app"
             BlueprintName = "Floral"
             ReferencedContainer = "container:Floral.xcodeproj">
          </BuildableReference>
